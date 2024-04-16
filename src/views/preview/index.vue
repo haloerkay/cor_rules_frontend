@@ -1,15 +1,52 @@
 <template>
-  <div class="preview"></div>
+  <div class="preview">
+    <div v-if="!data.length" class="tip">
+      请先上传文件
+    </div>
+    
+    <el-table v-if="data.length" :data="data"   style="width: 100%" >
+      <el-table-column v-for="(item, index) in title" :key="item" align="center" :label="item">
+        <!-- 注意vue3和vue2的区别 -->
+        <template #default="{ row }">
+          <span v-if="row">{{ row[index] }}</span>
+      </template>
+      </el-table-column>
+    </el-table>
+
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useFileStore } from "@/store/index.js"
+import { ref, watch } from "vue";
+import { storeToRefs } from 'pinia'
 
-<style scoped>
+const fileStore = useFileStore()
+const { file } = storeToRefs(fileStore)
+let title = ref([])
+let data = ref([])
+
+watch(file, () => {
+  if (file) {
+    title.value = file.value[0]
+    data.value = file.value.slice(1)
+  }
+})
+
+
+
+</script>
+
+<style lang="scss" scoped>
 .preview {
-  flex-grow: 1;
-  /*不需要设置宽度内容宽度就可以自适应*/
+  width: 80vw;
   height: 100vh;
-  min-width: 300px;
-  /* background-color: rgb(147, 22, 220); */
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  .tip{
+    align-self: center;
+    font-size: 30px;
+  }
 }
 </style>

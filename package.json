@@ -12,7 +12,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "vue": "^3.4.19"
+    "axios": "^1.6.8",
+    "element-plus": "^2.6.3",
+    "papaparse": "^5.4.1",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.19",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

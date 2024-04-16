@@ -1,18 +1,12 @@
 <template>
-  <div>
-    <bar></bar>
-    <div class="wrapper">
-      <sample></sample>
-      <preview></preview>
-      <parameter></parameter>
-    </div>
+  <div class="wrapper">
+    <operate></operate>
+    <preview></preview>
   </div>
 </template>
 
 <script setup>
-import bar from './views/bar/index.vue'
-import sample from './views/sample/index.vue'
-import parameter from './views/parameter/index.vue'
+import operate from './views/operate/index.vue'
 import preview from './views/preview/index.vue'
 </script>
 
@@ -22,3 +16,4 @@ import preview from './views/preview/index.vue'
   display: flex;
 }
 </style>
+
