@@ -1,6 +1,7 @@
 <template>
     <div class="classify">
-        <button class="btn" @click="classify">分类</button>
+        <button class="btn" @click="cbaClassify">CBA分类</button>
+        <button class="btn" @click="cmarClassify">CMAR分类</button>
     </div>
 </template>
 
@@ -12,9 +13,13 @@ import { storeToRefs } from 'pinia'
 const fileStore = useFileStore()
 const { fileName } = storeToRefs(fileStore)
 
-const classify =async () =>{
-    let ret = await httpReq('get', 'result/'+fileName.value, '',{} )
-    console.log(ret)
+const cbaClassify =async () =>{
+    let ret = await httpReq('get', 'cba/'+fileName.value, '',{} )
+    console.log('cba',ret)
+}
+const cmarClassify =async () =>{
+    let ret = await httpReq('get', 'cmar/'+fileName.value, '',{} )
+    console.log('cmar',ret)
 }
 
 </script>
@@ -23,6 +28,8 @@ const classify =async () =>{
 .classify {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
     .btn {
         width: 8vw;
         height: 8vh;

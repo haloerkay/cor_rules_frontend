@@ -1,7 +1,7 @@
 <template>
   <div class="preview">
     <div v-if="!data.length" class="tip">
-      请先上传文件
+      请上传文件
     </div>
     
     <el-table v-if="data.length" :data="data"   style="width: 100%" >
