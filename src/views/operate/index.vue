@@ -16,7 +16,7 @@ import slider from "./slider.vue"
 .operate{
     width: 20vw;
     height: 100vh;
-    background-color: #c4c3c3;
+    border-right: 2px solid #eee;
 }
 
 

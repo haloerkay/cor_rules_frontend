@@ -22,7 +22,7 @@ const cbaClassify = async () => {
     console.log('cba', ret)
 }
 const cmarClassify = async () => {
-    let ret = await httpReq('get', '/cmar', {}, {})
+    let ret = await httpReq('get', 'cmar/'+fileName.value, '', {})
     console.log('cmar', ret)
 }
 
@@ -42,12 +42,13 @@ const cmarClassify = async () => {
         border-radius: 10px;
         border: none;
         outline: none;
-        background-color: #fff;
-
+        background-color: rgb(237,242,246);
     }
 }
 
 .btn:hover {
     cursor: pointer;
+    color: #fff;
+    background-color:var(--el-color-primary) ;
 }
 </style>

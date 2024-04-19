@@ -45,7 +45,7 @@
   }
   .slider-demo-block .demonstration {
     font-size: 14px;
-    color: rgb(18, 119, 252);
+    color: var(--el-color-primary);
     line-height: 44px;
     flex: 1;
     overflow: hidden;

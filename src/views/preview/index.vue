@@ -46,6 +46,8 @@ watch(file, () => {
   overflow: auto;
   display: flex;
   justify-content: center;
+  background-color: rgb(237,242,246);
+  border-top: none;
   .tip{
     align-self: center;
     font-size: 30px;

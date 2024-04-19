@@ -14,6 +14,7 @@ import preview from './views/preview/index.vue'
 .wrapper {
   width: 100%;
   display: flex;
+  border: none;
 }
 </style>
 

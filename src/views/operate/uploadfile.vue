@@ -42,7 +42,7 @@ const loadFile = async (e) => {
   justify-content: center;
 
   .uploadTool {
-    background-color: #fff;
+    background-color: rgb(237,242,246);
     padding: 0;
     margin: 0;
     outline: none;
@@ -55,6 +55,8 @@ const loadFile = async (e) => {
   }
   .uploadTool:hover{
     cursor: pointer;
+    color: #fff;
+    background-color: var(--el-color-primary);
 }
 }
 </style>
