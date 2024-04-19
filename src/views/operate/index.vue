@@ -2,12 +2,14 @@
     <div class="operate">
         <uploadfile></uploadfile>
         <classify></classify>
+        <slider></slider>
     </div>
 </template>
 
 <script setup>
 import uploadfile from './uploadfile.vue';
 import classify from './classify.vue';
+import slider from "./slider.vue"
 </script>
 
 <style lang="scss" scoped>

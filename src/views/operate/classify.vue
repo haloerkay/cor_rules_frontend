@@ -6,20 +6,24 @@
 </template>
 
 <script setup>
-import {httpReq} from "@/utils/httpReq"
-import { useFileStore } from "@/store/index.js"
+import { httpReq } from "@/utils/httpReq"
+import { useFileStore,useInfoStore } from "@/store/index.js"
 import { storeToRefs } from 'pinia'
 
 const fileStore = useFileStore()
+const infoStore = useInfoStore()
 const { fileName } = storeToRefs(fileStore)
+const {minSup,minConf} = storeToRefs(infoStore)
 
-const cbaClassify =async () =>{
-    let ret = await httpReq('get', 'cba/'+fileName.value, '',{} )
-    console.log('cba',ret)
+const cbaClassify = async () => {
+    let ret = await httpReq('post', '/cba', 
+    JSON.stringify({ minsup: minSup.value, minconf:minConf.value, filename: fileName.value }),
+    { "Content-Type": "application/json" })
+    console.log('cba', ret)
 }
-const cmarClassify =async () =>{
-    let ret = await httpReq('get', 'cmar/'+fileName.value, '',{} )
-    console.log('cmar',ret)
+const cmarClassify = async () => {
+    let ret = await httpReq('get', '/cmar', {}, {})
+    console.log('cmar', ret)
 }
 
 </script>
@@ -30,6 +34,7 @@ const cmarClassify =async () =>{
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
     .btn {
         width: 8vw;
         height: 8vh;

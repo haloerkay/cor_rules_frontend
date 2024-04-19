@@ -5,9 +5,10 @@
     </div>
     
     <el-table v-if="data.length" :data="data"   style="width: 100%" >
+      <el-table-column type="index" width="70" />
       <el-table-column v-for="(item, index) in title" :key="item" align="center" :label="item">
         <!-- 注意vue3和vue2的区别 -->
-        <template #default="{ row }">
+        <template #default="{ row }" >
           <span v-if="row">{{ row[index] }}</span>
       </template>
       </el-table-column>
@@ -29,7 +30,8 @@ let data = ref([])
 watch(file, () => {
   if (file) {
     title.value = file.value[0]
-    data.value = file.value.slice(1)
+    data.value = file.value.slice(1).filter(row => row.length > 1);
+
   }
 })
 
