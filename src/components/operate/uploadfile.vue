@@ -1,10 +1,5 @@
 <template>
-  <div class="uploadFile">
-    <button class="uploadTool" @click="btnClick">
-      <div class="txt">上传</div>
-      <input type="file" ref="fileRef" :style="{ display: 'none' }" @change="loadFile" />
-    </button>
-  </div>
+
 </template>
 
 <script setup>
@@ -12,9 +7,13 @@ import { ref } from 'vue';
 import { httpReq } from "@/utils/httpReq.js"
 import { useFileStore } from "@/store/index.js"
 import Papa from 'papaparse'
+import { useRouter } from 'vue-router';
+import {useInfoStore} from "@/store/index.js"
 
+const router = useRouter()
 let fileRef = ref(null)
 const fileStore = useFileStore()
+const infoStore = useInfoStore()
 
 const btnClick = () => {
   fileRef.value.click()
@@ -32,6 +31,9 @@ const loadFile = async (e) => {
   let formData = new FormData()
   formData.append('file', file)
   const ret = await httpReq('post', 'upload', formData, { "Content-Type": "multipart/form-data" })
+  router.push("/")
+  infoStore.changeSup(0)
+  infoStore.changeConf(0)
 }
 </script>
 

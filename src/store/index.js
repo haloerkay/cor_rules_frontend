@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+
 // export const useFileStore = defineStore('file',() => {
 //     const file = ref(null)
 //     function changeFile(newFile){
@@ -8,26 +9,45 @@ import { ref } from 'vue'
 //     return {file,changeFile}
 // })
 
-export const useFileStore = defineStore('file',()=>{
+export const useFileStore = defineStore('file', () => {
     const file = ref(null)
     const fileName = ref()
-    function changeFile(newFile){
+    function changeFile(newFile) {
         file.value = newFile
     }
-    function changeName(newName){
+    function changeName(newName) {
         fileName.value = newName
     }
-    return {file,fileName,changeFile,changeName}
-})
+    return { file, fileName, changeFile, changeName }
+},
 
-export const useInfoStore = defineStore('info',()=>{
+)
+
+export const useInfoStore = defineStore('info', () => {
     const minSup = ref(0)
     const minConf = ref(0)
-    function changeSup(newSup){
+    function changeSup(newSup) {
         minSup.value = newSup
     }
-    function changeConf(newConf){
+    function changeConf(newConf) {
         minConf.value = newConf
     }
-    return {minSup,minConf,changeSup,changeConf}
+    return { minSup, minConf, changeSup, changeConf }
+}, {
+    persist: {
+        enabled: true,
+    }
+})
+
+export const useRetStore = defineStore('ret', () => {
+    const CBARet = ref()
+    function changeCBARet(newValue) {
+        CBARet.value = newValue
+    }
+    const CMARRet = ref()
+    function changeCMARRet(newValue) {
+        CMARRet.value = newValue
+    }
+
+    return { CBARet, CMARRet, changeCBARet, changeCMARRet }
 })

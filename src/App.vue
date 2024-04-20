@@ -1,20 +1,22 @@
 <template>
   <div class="wrapper">
     <operate></operate>
-    <preview></preview>
+  <router-view></router-view>
   </div>
+
 </template>
 
 <script setup>
-import operate from './views/operate/index.vue'
-import preview from './views/preview/index.vue'
+import operate from "@/components/operate/index.vue"
+
 </script>
 
 <style scoped lang="scss">
-.wrapper {
-  width: 100%;
-  display: flex;
-  border: none;
-}
+  .wrapper {
+    width: 100%;
+    display: flex;
+    border: none;
+  }
+
 </style>
 

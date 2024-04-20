@@ -9,16 +9,19 @@
 import { httpReq } from "@/utils/httpReq"
 import { useFileStore,useInfoStore } from "@/store/index.js"
 import { storeToRefs } from 'pinia'
+import { useRouter } from "vue-router";
 
 const fileStore = useFileStore()
 const infoStore = useInfoStore()
 const { fileName } = storeToRefs(fileStore)
 const {minSup,minConf} = storeToRefs(infoStore)
+const router = useRouter()
 
 const cbaClassify = async () => {
     let ret = await httpReq('post', '/cba', 
     JSON.stringify({ minsup: minSup.value, minconf:minConf.value, filename: fileName.value }),
     { "Content-Type": "application/json" })
+    router.push('/result')
     console.log('cba', ret)
 }
 const cmarClassify = async () => {
