@@ -10,7 +10,7 @@ import { ref } from 'vue'
 // })
 
 export const useFileStore = defineStore('file', () => {
-    const file = ref(null)
+    const file = ref([])
     const fileName = ref()
     function changeFile(newFile) {
         file.value = newFile
@@ -19,7 +19,11 @@ export const useFileStore = defineStore('file', () => {
         fileName.value = newName
     }
     return { file, fileName, changeFile, changeName }
-},
+},{
+    persist: {
+        enabled: true,
+    }
+}
 
 )
 

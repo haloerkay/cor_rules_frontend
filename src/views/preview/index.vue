@@ -19,7 +19,7 @@
 
 <script setup>
 import { useFileStore } from "@/store/index.js"
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { storeToRefs } from 'pinia'
 import {useRouter } from "vue-router"
 
@@ -28,6 +28,13 @@ const router = useRouter()
 const { fileName,file } = storeToRefs(fileStore)
 let title = ref([])
 let data = ref([])
+
+onMounted(()=>{
+  if(file.length!= 0){
+    title.value = file.value[0]
+    data.value = file.value.slice(1).filter(row => row.length > 1);
+  }
+})
 
 watch(file, () => {
   if (file) {

@@ -7,6 +7,7 @@
             </button>
         </div>
         <div class="classify">
+            <button class="btn" @click="preProcess">预处理</button>
             <button class="btn" @click="cbaClassify">CBA分类</button>
             <button class="btn" @click="cmarClassify">CMAR分类</button>
         </div>
@@ -18,23 +19,17 @@
             <span class="demonstration">Min_Conf</span>
             <el-slider v-model="conf" @change="changeConf1" :format-tooltip="formatTooltip" />
         </div>
-    </div>
-    <!-- <div class="preview">
-        <div v-if="!data.length" class="tip">
-            请上传文件
+
+        <div class="programmer">
+            <div class="title" v-if="fileName">
+              文件:{{ fileName }}
+            </div>
+            <div>
+               <div>最小支持度:{{ minSup }}</div> 
+               <div>最小置信度:{{ minConf }}</div> 
+            </div>
         </div>
-
-        <el-table v-if="data.length" :data="data" style="width: 100%">
-            <el-table-column type="index" width="70" />
-            <el-table-column v-for="(item, index) in title" :key="item" align="center" :label="item">
-                
-                <template #default="{ row }">
-                    <span v-if="row">{{ row[index] }}</span>
-                </template>
-            </el-table-column>
-        </el-table>
-
-    </div> -->
+    </div>
 </template>
 
 <script setup>
@@ -64,8 +59,7 @@ const infoStore = useInfoStore()
 const retStore = useRetStore()
 const { fileName, file } = storeToRefs(fileStore)
 const { minSup, minConf } = storeToRefs(infoStore)
-let title = ref([])
-let data = ref([])
+
 
 const btnClick = () => {
     fileRef.value.click()
@@ -108,6 +102,11 @@ const cbaClassify = async () => {
     retStore.changeCBARet(ret)
     console.log('cba', ret)
 }
+const preProcess = async()=>{
+    let ret = await httpReq('get','/pre_process/'+fileName.value,'',{})
+    console.log('preprocess',ret)
+    fileStore.changeFile(ret)
+}
 const cmarClassify = async () => {
     let ret = await httpReq('get', 'cmar/' + fileName.value, '', {})
     retStore.changeCMARRet(ret)
@@ -120,9 +119,13 @@ const formatTooltip = (val) => {
 }
 const changeSup1 = () => {
     infoStore.changeSup(sup.value / 100)
+    retStore.changeCBARet(0)
+    retStore.changeCMARRet(0)
 }
 const changeConf1 = () => {
     infoStore.changeConf(conf.value / 100)
+    retStore.changeCBARet(0)
+    retStore.changeCMARRet(0)
 }
 
 </script>
@@ -132,6 +135,12 @@ const changeConf1 = () => {
     width: 20vw;
     height: 100vh;
     border-right: 2px solid #eee;
+    .programmer{
+        position: absolute;
+        bottom: 15vh;
+        // margin-bottom: 6vh;
+        left: 7vw;
+    }
 }
 
 .classify {
