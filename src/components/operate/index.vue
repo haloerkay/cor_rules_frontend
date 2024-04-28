@@ -8,8 +8,9 @@
         </div>
         <div class="classify">
             <button class="btn" @click="preProcess">预处理</button>
-            <button class="btn" @click="cbaClassify">CBA分类</button>
-            <button class="btn" @click="cmarClassify">CMAR分类</button>
+            <button class="btn" @click="cbaM1Classify">CBA-M1</button>
+            <button class="btn" @click="cbaM2Classify">CBA-M2</button>
+            <button class="btn" @click="cmarClassify">CMAR</button>
         </div>
         <div class="slider-demo-block">
             <span class="demonstration">Min_Sup</span>
@@ -35,7 +36,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { httpReq } from "@/utils/httpReq.js"
-import { useFileStore, useInfoStore, useRetStore } from "@/store/index.js"
+import { useFileStore, useInfoStore, useRetStore,useBtnStore } from "@/store/index.js"
 import Papa from 'papaparse'
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
@@ -57,6 +58,7 @@ const fileRef = ref(null)
 const fileStore = useFileStore()
 const infoStore = useInfoStore()
 const retStore = useRetStore()
+const btnStore = useBtnStore()
 const { fileName, file } = storeToRefs(fileStore)
 const { minSup, minConf } = storeToRefs(infoStore)
 
@@ -94,13 +96,24 @@ const loadFile = async (e) => {
 
 }
 
-const cbaClassify = async () => {
-    let ret = await httpReq('post', '/cba',
+const cbaM1Classify = async () => {
+    let ret = await httpReq('post', '/cbam1',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
     router.push('/result')
     retStore.changeCBARet(ret)
-    console.log('cba', ret)
+    console.log('cbam1', ret)
+    btnStore.changeBtn('CBA-M1')
+}
+const cbaM2Classify = async () => {
+    let ret = await httpReq('post', '/cbam2',
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { "Content-Type": "application/json" })
+    router.push('/result')
+    retStore.changeCBARet(ret)
+    console.log('cbam1', ret)
+    btnStore.changeBtn('CBA-M2')
+
 }
 const preProcess = async()=>{
     let ret = await httpReq('get','/pre_process/'+fileName.value,'',{})
@@ -111,6 +124,7 @@ const cmarClassify = async () => {
     let ret = await httpReq('get', 'cmar/' + fileName.value, '', {})
     retStore.changeCMARRet(ret)
     console.log('cmar', ret)
+    btnStore.changeBtn('CMAR')
 }
 
 

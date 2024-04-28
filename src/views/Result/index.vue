@@ -4,11 +4,11 @@
             <preview></preview>
         </div>
 
-        <div class="ret">
-            <div v-if="CBARet" class="cba">
-                <div class='title'>
-                    CBA算法
-                </div>
+        <div class="ret" v-if="CBARet || CMARRet">
+            <div class='title'>
+                {{ btnStore.btn }}算法
+            </div>
+            <div class="tag">
                 <div class="accuracy">
                     <span>
                         准确率:{{ Number(CBARet.accuracy).toFixed(3) }}
@@ -16,50 +16,48 @@
                 </div>
                 <div class="cost">
                     <span>
-                        运算时间:{{ Number(CBARet.cost).toFixed(4) + "s" }}
+                        时间:{{ Number(CBARet.cost).toFixed(4) + "s" }}
                     </span>
                 </div>
-                
-                    <div class="rule">
-                        <el-scrollbar>
-                        <el-table :data="CBARet.rules">
-                            <el-table-column v-for="(item, index) in CBARet.rules[0]" :key="index"
-                                :label="labels[index]" :prop="'column' + index">
-                                <template v-slot="{ row }">
-                                    {{ row[index] }}
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        
+            </div>
+            <div class="rule">
+                <el-scrollbar>
+                    <el-table :data="CBARet.rules">
+                        <el-table-column v-for="(item, index) in CBARet.rules[0]" :key="index" :label="labels[index]"
+                            :prop="'column' + index">
+                            <template v-slot="{ row }">
+                                {{ row[index] }}
+                            </template>
+                        </el-table-column>
+                    </el-table>
+
+
                 </el-scrollbar>
-    
+
             </div>
         </div>
 
-        <div v-if="CMARRet" class="cmar">
-            <span>
-                CMAR:{{ Number(CMARRet).toFixed(3) }}
-            </span>
-        </div>
-    </div>
 
     </div>
 </template>
 
 <script setup>
 import preview from "@/views/Preview/index.vue"
-import { useInfoStore, useFileStore, useRetStore } from "@/store/index.js"
+import { useInfoStore, useFileStore, useRetStore, useBtnStore } from "@/store/index.js"
 import { storeToRefs } from "pinia";
 import { ref } from 'vue'
 
 const fileStore = useFileStore()
 const infoStore = useInfoStore()
 const retStore = useRetStore()
+const btnStore = useBtnStore()
 const { fileName } = storeToRefs(fileStore)
 const { CBARet, CMARRet } = storeToRefs(retStore)
 const { minSup, minConf } = storeToRefs(infoStore)
-let data = ref([[['1', '2'], 2, 3], [4, 5, 6]])
+// let data = ref([[['1', '2'], 2, 3], [4, 5, 6]])
 let labels = ref(['rule', 'class', 'sup', 'conf'])
+
+
 
 </script>
 
@@ -70,35 +68,46 @@ let labels = ref(['rule', 'class', 'sup', 'conf'])
     background-color: rgb(237, 242, 246);
 
     .preview {
-        height: 50vh;
+        height: 43vh;
     }
 
     .ret {
+        border-top: #eee 1px solid;
         display: flex;
+        width: 80vw;
+        height: 56.5vh;
+        border-right: 1px solid #cfcfcf;
+        flex-direction: column;
 
-        .cba {
-            width: 50%;
-            height: 50vh;
-            border-right: 1px solid #cfcfcf;
-
-            .title {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .rule {
-                margin-top: 3vh;
-                height: 40vh;
-                overflow: auto;
-            }
+        .title {
+            width: 8vw;
+            height: 5vh;
+            align-self: center;
+            background-color: var(--el-color-primary);
+            line-height: 5vh;
+            text-align: center;
+            border-radius: 5px;
+            color: #fff;
         }
 
-        .cmar {
-            width: 50%;
-            height: 50vh;
-            // background-color: aquamarine;
+        .tag {
+            align-self: flex-end;
+            height: 6vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--el-color-primary);
+            color: #fff;
+            width: 10vw;
+            border-radius: 5px;
+            text-align: center;
+            margin-right: 10vw 0;
+        }
 
+        .rule {
+            // margin-top: 3vh;
+            height: 47vh;
+            overflow: auto;
         }
     }
 

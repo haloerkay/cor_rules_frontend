@@ -55,3 +55,11 @@ export const useRetStore = defineStore('ret', () => {
 
     return { CBARet, CMARRet, changeCBARet, changeCMARRet }
 })
+
+export const useBtnStore = defineStore('btn',()=>{
+    const btn = ref()
+    function changeBtn(newValue){
+        btn.value = newValue
+    }
+    return {btn,changeBtn}
+})
