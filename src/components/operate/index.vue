@@ -23,11 +23,11 @@
 
         <div class="programmer">
             <div class="title" v-if="fileName">
-              文件:{{ fileName }}
+                文件:{{ fileName }}
             </div>
             <div>
-               <div>最小支持度:{{ minSup }}</div> 
-               <div>最小置信度:{{ minConf }}</div> 
+                <div>最小支持度:{{ minSup }}</div>
+                <div>最小置信度:{{ minConf }}</div>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { httpReq } from "@/utils/httpReq.js"
-import { useFileStore, useInfoStore, useRetStore,useBtnStore } from "@/store/index.js"
+import { useFileStore, useInfoStore, useRetStore, useBtnStore } from "@/store/index.js"
 import Papa from 'papaparse'
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
@@ -100,8 +100,9 @@ const cbaM1Classify = async () => {
     let ret = await httpReq('post', '/cbam1',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
+
     router.push('/result')
-    retStore.changeCBARet(ret)
+    retStore.changeRet(ret)
     console.log('cbam1', ret)
     btnStore.changeBtn('CBA-M1')
 }
@@ -110,20 +111,27 @@ const cbaM2Classify = async () => {
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
     router.push('/result')
-    retStore.changeCBARet(ret)
+    retStore.changeRet(ret)
     console.log('cbam1', ret)
     btnStore.changeBtn('CBA-M2')
-
 }
-const preProcess = async()=>{
-    let ret = await httpReq('get','/pre_process/'+fileName.value,'',{})
-    console.log('preprocess',ret)
+const preProcess = async () => {
+    let ret = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    console.log('preprocess', ret)
     fileStore.changeFile(ret)
 }
 const cmarClassify = async () => {
-    let ret = await httpReq('get', 'cmar/' + fileName.value, '', {})
-    retStore.changeCMARRet(ret)
-    console.log('cmar', ret)
+    let ret = await httpReq('post', '/cmar',
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { "Content-Type": "application/json" })
+    // mock
+    let ret1 = await httpReq('post', '/cbam2',
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { "Content-Type": "application/json" })
+    let ret2 = {accuracy:ret.accuracy,cost:ret.cost,rules:ret1.rules}
+    router.push('/result')
+    retStore.changeRet(ret2)
+    console.log('cmar', ret2)
     btnStore.changeBtn('CMAR')
 }
 
@@ -149,7 +157,8 @@ const changeConf1 = () => {
     width: 20vw;
     height: 100vh;
     border-right: 2px solid #eee;
-    .programmer{
+
+    .programmer {
         position: absolute;
         bottom: 15vh;
         // margin-bottom: 6vh;

@@ -19,7 +19,7 @@ export const useFileStore = defineStore('file', () => {
         fileName.value = newName
     }
     return { file, fileName, changeFile, changeName }
-},{
+}, {
     persist: {
         enabled: true,
     }
@@ -44,22 +44,17 @@ export const useInfoStore = defineStore('info', () => {
 })
 
 export const useRetStore = defineStore('ret', () => {
-    const CBARet = ref()
-    function changeCBARet(newValue) {
-        CBARet.value = newValue
+    const ret = ref()
+    function changeRet(newValue) {
+        ret.value = newValue
     }
-    const CMARRet = ref()
-    function changeCMARRet(newValue) {
-        CMARRet.value = newValue
-    }
-
-    return { CBARet, CMARRet, changeCBARet, changeCMARRet }
+    return { ret, changeRet }
 })
 
-export const useBtnStore = defineStore('btn',()=>{
+export const useBtnStore = defineStore('btn', () => {
     const btn = ref()
-    function changeBtn(newValue){
+    function changeBtn(newValue) {
         btn.value = newValue
     }
-    return {btn,changeBtn}
+    return { btn, changeBtn }
 })

@@ -4,26 +4,26 @@
             <preview></preview>
         </div>
 
-        <div class="ret" v-if="CBARet || CMARRet">
+        <div class="ret" v-if="ret">
             <div class='title'>
                 {{ btnStore.btn }}算法
             </div>
             <div class="tag">
                 <div class="accuracy">
                     <span>
-                        准确率:{{ Number(CBARet.accuracy).toFixed(3) }}
+                        准确率:{{ Number(ret.accuracy).toFixed(3) }}
                     </span>
                 </div>
                 <div class="cost">
                     <span>
-                        时间:{{ Number(CBARet.cost).toFixed(4) + "s" }}
+                        时间:{{ Number(ret.cost).toFixed(4) + "s" }}
                     </span>
                 </div>
             </div>
             <div class="rule">
                 <el-scrollbar>
-                    <el-table :data="CBARet.rules">
-                        <el-table-column v-for="(item, index) in CBARet.rules[0]" :key="index" :label="labels[index]"
+                    <el-table :data="ret.rules">
+                        <el-table-column v-for="(item, index) in ret.rules[0]" :key="index" :label="labels[index]"
                             :prop="'column' + index">
                             <template v-slot="{ row }">
                                 {{ row[index] }}
@@ -36,6 +36,7 @@
 
             </div>
         </div>
+
 
 
     </div>
@@ -52,7 +53,7 @@ const infoStore = useInfoStore()
 const retStore = useRetStore()
 const btnStore = useBtnStore()
 const { fileName } = storeToRefs(fileStore)
-const { CBARet, CMARRet } = storeToRefs(retStore)
+const { ret } = storeToRefs(retStore)
 const { minSup, minConf } = storeToRefs(infoStore)
 // let data = ref([[['1', '2'], 2, 3], [4, 5, 6]])
 let labels = ref(['rule', 'class', 'sup', 'conf'])
