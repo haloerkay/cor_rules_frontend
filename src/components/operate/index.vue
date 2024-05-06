@@ -86,8 +86,8 @@ const loadFile = async (e) => {
     infoStore.changeConf(0)
     sup.value = 0
     conf.value = 0
-    retStore.changeCBARet(null)
-    retStore.changeCMARRet(null)
+    retStore.changeRet(null)
+    retStore.changeRet(null)
 
     // if (file.value) {
     //     title.value = file.value[0]
@@ -125,13 +125,13 @@ const cmarClassify = async () => {
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
     // mock
-    let ret1 = await httpReq('post', '/cbam2',
-        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
-        { "Content-Type": "application/json" })
-    let ret2 = {accuracy:ret.accuracy,cost:ret.cost,rules:ret1.rules}
+    // let ret1 = await httpReq('post', '/cbam2',
+    //     JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+    //     { "Content-Type": "application/json" })
+    // let ret2 = {accuracy:ret.accuracy,cost:ret.cost,rules:ret1.rules}
     router.push('/result')
-    retStore.changeRet(ret2)
-    console.log('cmar', ret2)
+    retStore.changeRet(ret)
+    console.log('cmar', ret)
     btnStore.changeBtn('CMAR')
 }
 
@@ -141,13 +141,13 @@ const formatTooltip = (val) => {
 }
 const changeSup1 = () => {
     infoStore.changeSup(sup.value / 100)
-    retStore.changeCBARet(0)
-    retStore.changeCMARRet(0)
+    retStore.changeRet(0)
+    retStore.changeRet(0)
 }
 const changeConf1 = () => {
     infoStore.changeConf(conf.value / 100)
-    retStore.changeCBARet(0)
-    retStore.changeCMARRet(0)
+    retStore.changeRet(0)
+    retStore.changeRet(0)
 }
 
 </script>
