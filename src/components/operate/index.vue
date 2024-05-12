@@ -9,6 +9,7 @@
         <div class="classify">
             <button class="btn" @click="preProcess">预处理</button>
             <button class="btn" @click="cbaM1Classify">CBA-M1</button>
+            <button class="btn" @click="cbaM1AprClassify">CBA-M1-Apr</button>
             <button class="btn" @click="cbaM2Classify">CBA-M2</button>
             <button class="btn" @click="cmarClassify">CMAR</button>
         </div>
@@ -106,6 +107,17 @@ const cbaM1Classify = async () => {
     console.log('cbam1', ret)
     btnStore.changeBtn('CBA-M1')
 }
+const cbaM1AprClassify = async () => {
+    let ret = await httpReq('post', '/cbaapr',
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { "Content-Type": "application/json" })
+
+    router.push('/result')
+    retStore.changeRet(ret)
+    console.log('cbam1apr', ret)
+    btnStore.changeBtn('CBA-M1-Apr')
+}
+
 const cbaM2Classify = async () => {
     let ret = await httpReq('post', '/cbam2',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
