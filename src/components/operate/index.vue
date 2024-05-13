@@ -98,6 +98,9 @@ const loadFile = async (e) => {
 }
 
 const cbaM1Classify = async () => {
+    let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    console.log('preprocess', ret1)
+    fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam1',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
@@ -108,6 +111,9 @@ const cbaM1Classify = async () => {
     btnStore.changeBtn('CBA-M1')
 }
 const cbaM1AprClassify = async () => {
+    let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    console.log('preprocess', ret1)
+    fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbaapr',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
@@ -119,6 +125,9 @@ const cbaM1AprClassify = async () => {
 }
 
 const cbaM2Classify = async () => {
+    let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    console.log('preprocess', ret1)
+    fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam2',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
@@ -133,9 +142,28 @@ const preProcess = async () => {
     fileStore.changeFile(ret)
 }
 const cmarClassify = async () => {
+    let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    console.log('preprocess', ret1)
+    fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cmar',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
+
+    let arr = ret.rules
+    const seen = new Map();
+    // 用于存储去重后的结果
+    const result = [];
+
+    arr.forEach(item => {
+        const key = JSON.stringify(item[0]); // 将对象转换为字符串，作为Map的键
+        if (!seen.has(key)) {
+            seen.set(key, true);
+            result.push(item);
+        }
+    });
+    ret.rules = result
+    // console.log(ret.rules == arr,ret.rules,arr)
+
     // mock
     // let ret1 = await httpReq('post', '/cbam2',
     //     JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
