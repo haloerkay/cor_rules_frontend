@@ -58,3 +58,10 @@ export const useBtnStore = defineStore('btn', () => {
     }
     return { btn, changeBtn }
 })
+export const useTestStore = defineStore('test',() =>{
+    const ret = ref([])
+    function changeRet(newValue){
+        ret.value = newValue
+    }
+    return {ret,changeRet}
+}) 

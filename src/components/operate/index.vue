@@ -12,6 +12,7 @@
             <button class="btn" @click="cbaM1AprClassify">CBA-M1-Apr</button>
             <button class="btn" @click="cbaM2Classify">CBA-M2</button>
             <button class="btn" @click="cmarClassify">CMAR</button>
+            <button class="btn" @click="test">TEST</button>
         </div>
         <div class="slider-demo-block">
             <span class="demonstration">Min_Sup</span>
@@ -37,7 +38,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { httpReq } from "@/utils/httpReq.js"
-import { useFileStore, useInfoStore, useRetStore, useBtnStore } from "@/store/index.js"
+import { useFileStore, useInfoStore, useRetStore, useBtnStore,useTestStore } from "@/store/index.js"
 import Papa from 'papaparse'
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
@@ -60,6 +61,7 @@ const fileStore = useFileStore()
 const infoStore = useInfoStore()
 const retStore = useRetStore()
 const btnStore = useBtnStore()
+const testStore = useTestStore()
 const { fileName, file } = storeToRefs(fileStore)
 const { minSup, minConf } = storeToRefs(infoStore)
 
@@ -99,7 +101,7 @@ const loadFile = async (e) => {
 
 const cbaM1Classify = async () => {
     let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
-    console.log('preprocess', ret1)
+    // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam1',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
@@ -112,7 +114,7 @@ const cbaM1Classify = async () => {
 }
 const cbaM1AprClassify = async () => {
     let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
-    console.log('preprocess', ret1)
+    // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbaapr',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
@@ -126,7 +128,7 @@ const cbaM1AprClassify = async () => {
 
 const cbaM2Classify = async () => {
     let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
-    console.log('preprocess', ret1)
+    // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam2',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
@@ -138,12 +140,12 @@ const cbaM2Classify = async () => {
 }
 const preProcess = async () => {
     let ret = await httpReq('get', '/pre_process/' + fileName.value, '', {})
-    console.log('preprocess', ret)
+    // console.log('preprocess', ret)
     fileStore.changeFile(ret)
 }
 const cmarClassify = async () => {
     let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
-    console.log('preprocess', ret1)
+    // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cmar',
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
@@ -175,6 +177,22 @@ const cmarClassify = async () => {
     btnStore.changeBtn('CMAR')
 }
 
+const test = async () =>{
+    let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
+    // console.log('preprocess', ret1)
+    fileStore.changeFile(ret1)
+    let ret = await httpReq('post', '/test',
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { "Content-Type": "application/json" })
+
+    // router.push('/result')
+    console.log(ret)
+    testStore.changeRet(ret)
+    // retStore.changeRet(ret)
+    // console.log('cbam1apr', ret)
+    // btnStore.changeBtn('CBA-M1-Apr')
+}
+
 
 const formatTooltip = (val) => {
     return val / 100
@@ -189,6 +207,7 @@ const changeConf1 = () => {
     retStore.changeRet(0)
     retStore.changeRet(0)
 }
+
 
 </script>
 
