@@ -9,8 +9,8 @@
         <div class="classify">
             <button class="btn" @click="preProcess">预处理</button>
             <button class="btn" @click="cbaM1Classify">CBA-M1</button>
-            <button class="btn" @click="cbaM1AprClassify">CBA-M1-Apr</button>
             <button class="btn" @click="cbaM2Classify">CBA-M2</button>
+            <button class="btn" @click="cbaM1AprClassify">APR</button>
             <button class="btn" @click="cmarClassify">CMAR</button>
             <button class="btn" @click="test">TEST</button>
         </div>
@@ -123,7 +123,7 @@ const cbaM1AprClassify = async () => {
     router.push('/result')
     retStore.changeRet(ret)
     console.log('cbam1apr', ret)
-    btnStore.changeBtn('CBA-M1-Apr')
+    btnStore.changeBtn('APR')
 }
 
 const cbaM2Classify = async () => {

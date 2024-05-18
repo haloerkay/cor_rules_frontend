@@ -61,7 +61,47 @@ const initChart = () => {
   toolbox: {
     feature: {
 
-      dataView: { show: true, readOnly: false },
+      dataView: { show: true, readOnly: true,
+                  //自定义样式
+                  optionToContent:  (opt) => {
+                    let axisData = opt.xAxis[0].data; //坐标数据
+                    let series = opt.series; //折线图数据
+                    let tdHeads = '<td  style="padding: 2px 10px;background-color: rgb(64,158,255);font-weight: 600;color: #fff;line-height:20px;">算法</td>'; //表头
+                    let tdBodys = ''; //数据
+                    console.log(series)
+                    series.forEach(function (item) {
+                      //组装表头
+                      tdHeads += `<td style="padding: 2px 10px;background-color: rgb(64,158,255);font-weight: 600;color: #fff;line-height:20px;">${item.name}</td>`;
+                    });
+                    let table = `<table   border="1" style=" width: 96%;margin-left:20px;border-collapse:collapse;font-size:14px;text-align:center" class="dataViewTable"><tbody><tr>${tdHeads} </tr>`;
+
+                    for (let i = 0, l = axisData.length; i < l; i++) {
+                      for (let j = 0; j < series.length; j++) {
+                        //组装表数据
+                        tdBodys += `<td><input class="${j}x" type="text" value="${series[j].data[i]}" style="border:none;text-align: center;color: #444444;"></td>`;
+                      }
+                      table += `<tr><td style="padding: 2px 10px;text-align: center"><input type="text" value="${axisData[i]}" style="border: none;;text-align: center;"> </td>${tdBodys}</tr>`;
+                      tdBodys = '';
+                    }
+                    table += '</tbody></table>';
+                    return table;
+                  },
+                  //编辑功能
+                  contentToOption: (HTMLDomElement, opt) => {
+                    if(document.getElementsByClassName('dataViewTable').length>1){
+                      this.$message.error('有其他未关闭的数据视图，请关闭后重试');
+                    }else{
+                    for(let i = 0;i < opt.series.length;i++){
+                      var name = 'dataX' + i;
+                      window[name] = []
+                      for (let j of document.getElementsByClassName(`${i}x`) ){
+                        window[name].push(j.value)
+                      }
+                      opt.series[i].data = window[name]
+                    }
+                    return opt;}
+                  },
+                },
       magicType: { show: true, type: ['line', 'bar'] },
       restore: { show: true },
       saveAsImage: { show: true }
@@ -85,6 +125,8 @@ const initChart = () => {
       type: 'value',
       name: '准确率',
       offset: 10,
+      max:100,
+      min:0,
       position: 'right',
       alignTicks: true,
       axisLine: {
@@ -133,19 +175,19 @@ const initChart = () => {
     {
       name: '准确率',
       type: 'bar',
-      data: data.value[0]
+      data: data.value[0],
     },
     {
       name: '规则数目',
       type: 'bar',
       yAxisIndex: 1,
-      data: data.value[1]
+      data: data.value[1],
     },
     {
       name: '时间开销',
       type: 'line',
       yAxisIndex: 2,
-      data: data.value[2]
+      data: data.value[2],
     }
   ]
 };
