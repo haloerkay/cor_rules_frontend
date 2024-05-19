@@ -12,7 +12,7 @@
             <button class="btn" @click="cbaM2Classify">CBA-M2</button>
             <button class="btn" @click="cbaM1AprClassify">APR</button>
             <button class="btn" @click="cmarClassify">CMAR</button>
-            <button class="btn" @click="test">TEST</button>
+            <button class="btn" @click="test">测试</button>
         </div>
         <div class="slider-demo-block">
             <span class="demonstration">Min_Sup</span>
@@ -151,19 +151,22 @@ const cmarClassify = async () => {
         JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
 
-    let arr = ret.rules
-    const seen = new Map();
-    // 用于存储去重后的结果
-    const result = [];
+        // cmar去重
+    // let arr = ret.rules
+    // const seen = new Map();
+    // // 用于存储去重后的结果
+    // const result = [];
 
-    arr.forEach(item => {
-        const key = JSON.stringify(item[0]); // 将对象转换为字符串，作为Map的键
-        if (!seen.has(key)) {
-            seen.set(key, true);
-            result.push(item);
-        }
-    });
-    ret.rules = result
+    // arr.forEach(item => {
+    //     const key = JSON.stringify(item[0]); // 将对象转换为字符串，作为Map的键
+    //     if (!seen.has(key)) {
+    //         seen.set(key, true);
+    //         result.push(item);
+    //     }
+    // });
+    // ret.rules = result
+    // ret.nums = result.length
+
     // console.log(ret.rules == arr,ret.rules,arr)
 
     // mock

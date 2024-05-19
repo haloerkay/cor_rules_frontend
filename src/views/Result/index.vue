@@ -9,15 +9,35 @@
                 {{ btnStore.btn }}算法
             </div>
             <div class="tag">
-                <div class="accuracy">
-                    <span>
-                        准确率:{{ Number(ret.accuracy).toFixed(3) }}
-                    </span>
+
+                <div class="left">
+
+                    <div class="nums">
+                        <span>
+                            规则数目:{{ ret.nums }}
+                        </span>
+                    </div>
+                    <div class="default">
+                        <span>
+                            默认类:{{ ret.default}}
+                        </span>
+                     
+                    </div>
                 </div>
-                <div class="cost">
-                    <span>
-                        时间:{{ Number(ret.cost).toFixed(4) + "s" }}
-                    </span>
+
+
+
+                <div class="right">
+                    <div class="accuracy">
+                        <span>
+                            准确率:{{ Number(ret.accuracy).toFixed(3) }}
+                        </span>
+                    </div>
+                    <div class="cost">
+                        <span>
+                            时间:{{ Number(ret.cost).toFixed(4) + "s" }}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="rule">
@@ -92,17 +112,25 @@ let labels = ref(['rule', 'class', 'sup', 'conf'])
         }
 
         .tag {
-            align-self: flex-end;
+            width: 80vw;
+            display: flex;
+            justify-content: space-between;
+            .left,.right{
             height: 6vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             background-color: var(--el-color-primary);
             color: #fff;
-            width: 10vw;
+            width: 15vw;
             border-radius: 5px;
             text-align: center;
             margin-right: 10vw 0;
+            div{
+                line-height: 3vh;
+
+            }
+            }
         }
 
         .rule {
