@@ -7,7 +7,7 @@
             </button>
         </div>
         <div class="classify">
-            <button class="btn" @click="preProcess">预处理</button>
+            <!-- <button class="btn" @click="preProcess">预处理</button> -->
             <button class="btn" @click="cbaM1Classify">CBA-M1</button>
             <button class="btn" @click="cbaM2Classify">CBA-M2</button>
             <button class="btn" @click="cbaM1AprClassify">APR</button>
@@ -104,7 +104,7 @@ const cbaM1Classify = async () => {
     // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam1',
-        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        { minsup: minSup.value, minconf: minConf.value, filename: fileName.value,loading: true },
         { "Content-Type": "application/json" })
 
     router.push('/result')
