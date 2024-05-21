@@ -42,6 +42,10 @@ const deleteTest = () => {
   testStore.changeRet([])
   data.value = [[],[],[]]
   console.log(data.value,'ddd')
+  // let myChart = chartDom.value
+  // if (myChart  != null && myChart != "" && myChart != undefined) {
+  //   myChart.dispose();
+  // }
 }
 
 const initChart = () => {

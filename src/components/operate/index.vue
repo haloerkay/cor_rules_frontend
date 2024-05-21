@@ -85,10 +85,10 @@ const loadFile = async (e) => {
     let formData = new FormData()
     formData.append('file', fileT)
     const ret = await httpReq('post', 'upload', formData, { "Content-Type": "multipart/form-data" })
-    infoStore.changeSup(0)
-    infoStore.changeConf(0)
-    sup.value = 0
-    conf.value = 0
+    // infoStore.changeSup(0)
+    // infoStore.changeConf(0)
+    // sup.value = 0
+    // conf.value = 0
     retStore.changeRet(null)
     retStore.changeRet(null)
 
