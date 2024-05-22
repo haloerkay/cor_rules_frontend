@@ -35,7 +35,7 @@
                     </div>
                     <div class="cost">
                         <span>
-                            时间:{{ Number(ret.cost).toFixed(4) + "s" }}
+                            时间:{{ Number(ret.cost).toFixed(3) + "s" }}
                         </span>
                     </div>
                 </div>

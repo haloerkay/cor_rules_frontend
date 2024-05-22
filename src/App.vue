@@ -37,19 +37,20 @@ watch(() => testStore.ret, (newValue, oldValue) => {
   }
 })
 
+let myChart = ref()
 
 const deleteTest = () => {
   testStore.changeRet([])
   data.value = [[],[],[]]
   console.log(data.value,'ddd')
-  // let myChart = chartDom.value
-  // if (myChart  != null && myChart != "" && myChart != undefined) {
-  //   myChart.dispose();
-  // }
+  // let myChart = echarts.init(chartDom.value);
+  if (myChart.value  != null && myChart.value != "" && myChart.value != undefined) {
+    myChart.value.dispose();
+  }
 }
 
 const initChart = () => {
-  var myChart = echarts.init(chartDom.value);
+  myChart.value = echarts.init(chartDom.value);
   const colors = ['#5470C6', '#91CC75', '#EE6666'];
   let option = {
   color: colors,
@@ -196,7 +197,7 @@ const initChart = () => {
   ]
 };
 
-  option && myChart.setOption(option);
+  option && myChart.value.setOption(option);
 };
 
 </script>
