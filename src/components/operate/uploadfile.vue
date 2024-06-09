@@ -8,7 +8,7 @@ import { httpReq } from "@/utils/httpReq.js"
 import { useFileStore } from "@/store/index.js"
 import Papa from 'papaparse'
 import { useRouter } from 'vue-router';
-import {useInfoStore} from "@/store/index.js"
+import { useInfoStore } from "@/store/index.js"
 
 const router = useRouter()
 let fileRef = ref(null)
@@ -20,7 +20,7 @@ const btnClick = () => {
 }
 const loadFile = async (e) => {
   let file = e.target.files[0]
-  
+
   fileStore.changeName(file.name.split('.')[0])
   Papa.parse(file, {
     complete: (results) => {
@@ -44,7 +44,7 @@ const loadFile = async (e) => {
   justify-content: center;
 
   .uploadTool {
-    background-color: rgb(237,242,246);
+    background-color: rgb(237, 242, 246);
     padding: 0;
     margin: 0;
     outline: none;
@@ -55,10 +55,11 @@ const loadFile = async (e) => {
     margin-top: 10px;
     border-radius: 10px;
   }
-  .uploadTool:hover{
+
+  .uploadTool:hover {
     cursor: pointer;
     color: #fff;
     background-color: var(--el-color-primary);
-}
+  }
 }
 </style>

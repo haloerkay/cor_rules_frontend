@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,shallowRef } from 'vue'
 
 // export const useFileStore = defineStore('file',() => {
 //     const file = ref(null)
@@ -44,7 +44,7 @@ export const useInfoStore = defineStore('info', () => {
 })
 
 export const useRetStore = defineStore('ret', () => {
-    const ret = ref()
+    const ret = shallowRef()
     function changeRet(newValue) {
         ret.value = newValue
     }
@@ -65,3 +65,11 @@ export const useTestStore = defineStore('test',() =>{
     }
     return {ret,changeRet}
 }) 
+
+export const useModelStore = defineStore('modle',()=>{
+    const model = ref()
+    function changeModel(newValue){
+        model.value = newValue
+    }
+    return {model,changeModel}
+})

@@ -13,6 +13,9 @@
             <button class="btn" @click="cbaM1AprClassify">APR</button>
             <button class="btn" @click="cmarClassify">CMAR</button>
             <button class="btn" @click="test">测试</button>
+            <button class="btn" @click="store">保存模型</button>
+            <button class="btn" @click="manage">模型管理</button>
+
         </div>
         <div class="slider-demo-block">
             <span class="demonstration">Min_Sup</span>
@@ -38,10 +41,11 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { httpReq } from "@/utils/httpReq.js"
-import { useFileStore, useInfoStore, useRetStore, useBtnStore,useTestStore } from "@/store/index.js"
+import { useFileStore, useInfoStore, useRetStore, useBtnStore, useTestStore, useModelStore } from "@/store/index.js"
 import Papa from 'papaparse'
 import { useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 let sup = ref(0)
 let conf = ref(0)
@@ -62,6 +66,7 @@ const infoStore = useInfoStore()
 const retStore = useRetStore()
 const btnStore = useBtnStore()
 const testStore = useTestStore()
+const modelStore = useModelStore()
 const { fileName, file } = storeToRefs(fileStore)
 const { minSup, minConf } = storeToRefs(infoStore)
 
@@ -104,7 +109,7 @@ const cbaM1Classify = async () => {
     // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam1',
-        { minsup: minSup.value, minconf: minConf.value, filename: fileName.value,loading: true },
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value, loading: true }),
         { "Content-Type": "application/json" })
 
     router.push('/result')
@@ -122,7 +127,7 @@ const cbaM1AprClassify = async () => {
 
     router.push('/result')
     retStore.changeRet(ret)
-    console.log('cbam1apr', ret)
+    console.log('apr', ret)
     btnStore.changeBtn('APR')
 }
 
@@ -131,11 +136,11 @@ const cbaM2Classify = async () => {
     // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cbam2',
-        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+       JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
         { "Content-Type": "application/json" })
     router.push('/result')
     retStore.changeRet(ret)
-    console.log('cbam1', ret)
+    console.log('cbam2', ret)
     btnStore.changeBtn('CBA-M2')
 }
 const preProcess = async () => {
@@ -148,10 +153,10 @@ const cmarClassify = async () => {
     // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
     let ret = await httpReq('post', '/cmar',
-        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value }),
+        JSON.stringify({ minsup: minSup.value, minconf: minConf.value, filename: fileName.value}),
         { "Content-Type": "application/json" })
 
-        // cmar去重
+    // cmar去重
     // let arr = ret.rules
     // const seen = new Map();
     // // 用于存储去重后的结果
@@ -180,7 +185,7 @@ const cmarClassify = async () => {
     btnStore.changeBtn('CMAR')
 }
 
-const test = async () =>{
+const test = async () => {
     let ret1 = await httpReq('get', '/pre_process/' + fileName.value, '', {})
     // console.log('preprocess', ret1)
     fileStore.changeFile(ret1)
@@ -191,9 +196,34 @@ const test = async () =>{
     // router.push('/result')
     console.log(ret)
     testStore.changeRet(ret)
+    router.push('/')
+
     // retStore.changeRet(ret)
     // console.log('cbam1apr', ret)
     // btnStore.changeBtn('CBA-M1-Apr')
+}
+const store = () => {
+    ElMessageBox.prompt('请输入模型名称', 'Tip', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    inputPlaceholder:'cmar-iris'
+
+  })
+    .then(({ value }) => {
+      ElMessage({
+        type: 'success',
+        message: `cmar-iris模型保存成功`,
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'warning',
+        message: '保存取消',
+      })
+    })
+}
+const manage = () => {
+    modelStore.changeModel(true)
 }
 
 
@@ -222,7 +252,7 @@ const changeConf1 = () => {
 
     .programmer {
         position: absolute;
-        bottom: 15vh;
+        bottom: 5vh;
         // margin-bottom: 6vh;
         left: 7vw;
     }
